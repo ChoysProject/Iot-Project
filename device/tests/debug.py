@@ -19,7 +19,18 @@ def on_message(client, userdata, message):
     #                         TARGET={T / 100}, CURRENT={C / 100}""")
 
 
-client.connect("localhost", 1883)
+import ssl
+
+client.tls_set(
+    "ca.pem",
+    certfile="thing.crt",
+    keyfile="thing.key",   
+    cert_reqs=ssl.CERT_REQUIRED,
+    tls_version=ssl.PROTOCOL_TLSv1_2,
+    ciphers=None
+)
+client.connect("a1ztynhdwt5f6d-ats.iot.ap-northeast-2.amazonaws.com", 8883)  #localhost등
+
 client.on_message = on_message
 client.subscribe("device/1/data", 1)
 client.subscribe("device/ping", 1)
